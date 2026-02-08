@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kindergarten Fun World</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+            background: linear-gradient(135deg, #fce4ec, #e1f5fe, #f3e5f5);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: #444;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(90deg, #ff7043, #ffb74d, #fff176, #81c784, #64b5f6, #ba68c8);
+            padding: 28px 20px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        header h1 {
+            font-size: 38px;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.25);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            font-size: 18px;
+            color: #fff;
+            margin-top: 6px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* ===== MAIN ===== */
+        main {
+            flex: 1;
+            max-width: 960px;
+            margin: 30px auto;
+            width: 90%;
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .section-title {
+            text-align: center;
+            font-size: 26px;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 30px;
+            display: inline-block;
+            margin-bottom: 22px;
+        }
+
+        .title-anthem { background: linear-gradient(90deg, #ef5350, #ab47bc); }
+        .title-rhymes { background: linear-gradient(90deg, #42a5f5, #26a69a); }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        /* ===== SECTION 1: NATIONAL ANTHEM ===== */
+        section#anthem {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            padding: 32px 28px;
+            margin-bottom: 40px;
+        }
+
+        .anthem-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .anthem-figure {
+            text-align: center;
+        }
+
+        .anthem-figure img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #ef5350;
+            box-shadow: 0 4px 12px rgba(239,83,80,0.3);
+        }
+
+        .anthem-figure figcaption {
+            margin-top: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #ef5350;
+        }
+
+        .anthem-player {
+            text-align: center;
+        }
+
+        .anthem-player p {
+            font-size: 17px;
+            margin-bottom: 12px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .anthem-player audio {
+            width: 100%;
+            max-width: 320px;
+        }
+
+        /* ===== SECTION 2: NURSERY RHYMES ===== */
+        section#rhymes {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            padding: 32px 28px;
+            margin-bottom: 40px;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .video-card {
+            background: linear-gradient(145deg, #f9f9f9, #ffffff);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            border: 2px solid #e0e0e0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.14);
+        }
+
+        .video-card figure {
+            margin: 0;
+        }
+
+        .video-card video {
+            width: 100%;
+            border-radius: 0;
+            display: block;
+            background: #1a1a2e;
+        }
+
+        .video-card figcaption {
+            padding: 12px 14px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #42a5f5;
+            text-align: center;
+            border-top: 2px solid #e8f4fd;
+        }
+
+        /* ===== EMAIL IMAGE LINK (fig + figcaption) ===== */
+        .contact-section {
+            text-align: center;
+            margin: 10px 0 30px;
+        }
+
+        .contact-section p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 14px;
+            font-weight: bold;
+        }
+
+        .contact-section figure {
+            display: inline-block;
+            text-align: center;
+        }
+
+        .contact-section a img {
+            width: 160px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 4px solid #ab47bc;
+            box-shadow: 0 4px 14px rgba(171,71,188,0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .contact-section a img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(171,71,188,0.45);
+        }
+
+        .contact-section figcaption {
+            margin-top: 10px;
+            font-size: 15px;
+            color: #ab47bc;
+            font-weight: bold;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(90deg, #ff7043, #ffb74d, #fff176, #81c784, #64b5f6, #ba68c8);
+            text-align: center;
+            padding: 22px 20px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.12);
+        }
+
+        footer p {
+            color: #fff;
+            font-size: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        footer p + p {
+            margin-top: 4px;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header>
+    <h1>🌈 Kindergarten Fun World 🌈</h1>
+    <p>Learn, Play & Enjoy with Music and Rhymes!</p>
+</header>
+
+<!-- ===== MAIN ===== -->
+<main>
+
+    <!-- ===== SECTION 1: National Anthem Audio ===== -->
+    <section id="anthem">
+        <div class="section-header">
+            <span class="section-title title-anthem">🎵 National Anthem</span>
+        </div>
+
+        <div class="anthem-container">
+
+            <!-- Figure with caption for the flag -->
+            <figure class="anthem-figure">
+                <img
+                    src="FLAG.webp"
+                    alt="Flag of Pakistan representing the national anthem"
+                >
+                <figcaption>🇵🇰 Pakistan Flag</figcaption>
+            </figure>
+
+            <!-- Audio Player -->
+            <div class="anthem-player">
+                <p>Listen to the National Anthem</p>
+                <audio controls>
+                    <source src="/ANTHEM.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ===== SECTION 2: Famous Rhymes Videos ===== -->
+    <section id="rhymes">
+        <div class="section-header">
+            <span class="section-title title-rhymes">🎶 Famous Nursery Rhymes</span>
+        </div>
+
+        <div class="video-grid">
+
+            <!-- Video 1 -->
+            <figure class="video-card">
+                <video controls poster="/img.jpg">
+                
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                    Your browser does not support the video element.
+                </video>
+                <figcaption>⭐ Twinkle Twinkle Little Star</figcaption>
+            </figure>
+
+            <!-- Video 2 -->
+            <figure class="video-card">
+                <video controls poster="/img.jpg">
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                    Your browser does not support the video element.
+                </video>
+                <figcaption>🚣 Row Row Row Your Boat</figcaption>
+            </figure>
+
+            <!-- Video 3 -->
+            <figure class="video-card">
+                <video controls poster="/img.jpg">
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                    Your browser does not support the video element.
+                </video>
+                <figcaption>🐑 Mary Had a Little Lamb</figcaption>
+            </figure>
+
+            <!-- Video 4 -->
+            <figure class="video-card">
+                <video controls poster="/img.jpg">
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                    Your browser does not support the video element.
+                </video>
+                <figcaption>🥚 Humpty Dumpty</figcaption>
+            </figure>
+
+            <!-- Video 5 -->
+            <figure class="video-card">
+                <video controls poster="/img.jpg">
+                    <source src="https://www.w3schools.com/html/movie.mp4" type="video/mp4">
+                    Your browser does not support the video element.
+                </video>
+                <figcaption>⛰️ Jack and Jill</figcaption>
+            </figure>
+
+        </div>
+    </section>
+
+    <!-- ===== Image as an Email Link with fig & figcaption ===== -->
+    <div class="contact-section">
+        <p>📧 Have Questions? Contact Us!</p>
+        <figure>
+            <a href="mailto:kindergarten@school.edu">
+                <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Camponotus_flavomarginatus_ant.jpg/440px-Camponotus_flavomarginatus_ant.jpg"
+                    alt="Click this image to send an email to the Kindergarten department for any questions or support"
+                >
+            </a>
+            <figcaption>📩 Click the image to email us at kindergarten@school.edu</figcaption>
+        </figure>
+    </div>
+
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+    <p>🌟 Kindergarten Fun World — Designed for Little Learners 🌟</p>
+    <p>© 2026 Kindergarten School. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

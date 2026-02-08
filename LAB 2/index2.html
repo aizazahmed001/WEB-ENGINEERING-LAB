@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Visit Feedback Form</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f9;
+            margin: 0;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 650px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 40px 35px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1a5276;
+            margin-bottom: 5px;
+            font-size: 26px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: bold;
+            color: #1a5276;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: #444;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            background-color: #fafafa;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: #1a5276;
+            outline: none;
+            background-color: #fff;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 30px;
+        }
+
+        .checkbox-group label,
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            color: #555;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .checkbox-group input[type="checkbox"],
+        .radio-group input[type="radio"] {
+            margin-right: 8px;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: #1a5276;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            margin-top: 30px;
+        }
+
+        button[type="submit"],
+        button[type="reset"] {
+            padding: 11px 35px;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+
+        button[type="submit"] {
+            background-color: #1a5276;
+            color: #fff;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #154360;
+        }
+
+        button[type="reset"] {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #d0d0d0;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>Campus Visit Feedback</h1>
+        <p class="subtitle">We value your feedback! Please share your experience with us.</p>
+        <hr>
+
+        <form method="POST" action="http://www.bahria.com">
+
+            <!-- Personal Information -->
+            <div class="section-title">Personal Information</div>
+
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-Mail:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
+
+            <hr>
+
+            <!-- What Did You Like Most? -->
+            <div class="section-title">What Did You Like Most About the Campus?</div>
+
+            <div class="form-group">
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="liked" value="campus"> Campus</label>
+                    <label><input type="checkbox" name="liked" value="students"> Students</label>
+                    <label><input type="checkbox" name="liked" value="location"> Location</label>
+                    <label><input type="checkbox" name="liked" value="atmosphere"> Atmosphere</label>
+                    <label><input type="checkbox" name="liked" value="dorm_rooms"> Dorm Rooms</label>
+                    <label><input type="checkbox" name="liked" value="sports"> Sports</label>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- How Did You Become Interested? -->
+            <div class="section-title">How Did You Become Interested in This College?</div>
+
+            <div class="form-group">
+                <div class="radio-group">
+                    <label><input type="radio" name="interest" value="friends" required> Friends</label>
+                    <label><input type="radio" name="interest" value="television"> Television</label>
+                    <label><input type="radio" name="interest" value="internet"> Internet</label>
+                    <label><input type="radio" name="interest" value="other"> Other</label>
+                </div>
+            </div>
+
+            <hr>
+
+            <!-- Additional Comments -->
+            <div class="section-title">Additional Comments</div>
+
+            <div class="form-group">
+                <textarea name="comments" placeholder="Share any additional thoughts or feedback here..."></textarea>
+            </div>
+
+            <!-- Buttons -->
+            <div class="buttons">
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+</html>
