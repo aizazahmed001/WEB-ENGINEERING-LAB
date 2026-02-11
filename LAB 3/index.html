@@ -1,0 +1,1521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Pakistan | Official Online Store - Fashion for Men & Women</title>
+    <!-- DaisyUI via CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.3/dist/full.min.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #000000;
+            --secondary: #f5f5f5;
+            --accent: #ff3e6c;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .hero-slider {
+            height: 600px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .category-card:hover img {
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.03);
+            transition: transform 0.3s ease;
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: var(--accent);
+            color: white;
+            padding: 3px 10px;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 3px;
+            z-index: 10;
+        }
+        
+        .text-accent {
+            color: var(--accent);
+        }
+        
+        .bg-accent {
+            background-color: var(--accent);
+        }
+        
+        .border-accent {
+            border-color: var(--accent);
+        }
+        
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .cart-sidebar.active {
+            right: 0;
+        }
+        
+        .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .cart-overlay.active {
+            display: block;
+        }
+        
+        .size-selector input[type="radio"] {
+            display: none;
+        }
+        
+        .size-selector label {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        
+        .size-selector input[type="radio"]:checked + label {
+            background-color: black;
+            color: white;
+            border-color: black;
+        }
+        
+        .wishlist-btn.active {
+            color: var(--accent);
+        }
+        
+        .product-rating {
+            color: #ffc107;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-slider {
+                height: 400px;
+            }
+            
+            .mobile-menu {
+                display: none;
+            }
+            
+            .mobile-menu.active {
+                display: block;
+            }
+            
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+        
+        .animate-slide {
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="p-6 h-full flex flex-col">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold">Shopping Cart (<span id="cart-count">2</span>)</h3>
+                <button class="btn btn-sm btn-circle" id="close-cart">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="flex-grow overflow-y-auto" id="cart-items">
+                <!-- Cart Item 1 -->
+                <div class="flex items-center border-b py-4">
+                    <div class="w-20 h-20 overflow-hidden rounded">
+                        <img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-4 flex-grow">
+                        <h4 class="font-medium">Classic Denim Jacket</h4>
+                        <p class="text-sm text-gray-500">Size: M</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center">
+                                <button class="text-gray-500 hover:text-black" onclick="updateQuantity(this, -1)">-</button>
+                                <span class="mx-2">1</span>
+                                <button class="text-gray-500 hover:text-black" onclick="updateQuantity(this, 1)">+</button>
+                            </div>
+                            <div class="font-bold">PKR 2,499</div>
+                        </div>
+                    </div>
+                    <button class="ml-2 text-gray-400 hover:text-red-500" onclick="removeCartItem(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Cart Item 2 -->
+                <div class="flex items-center border-b py-4">
+                    <div class="w-20 h-20 overflow-hidden rounded">
+                        <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=400&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-4 flex-grow">
+                        <h4 class="font-medium">Women's Summer Dress</h4>
+                        <p class="text-sm text-gray-500">Size: S</p>
+                        <div class="flex justify-between items-center mt-2">
+                            <div class="flex items-center">
+                                <button class="text-gray-500 hover:text-black" onclick="updateQuantity(this, -1)">-</button>
+                                <span class="mx-2">2</span>
+                                <button class="text-gray-500 hover:text-black" onclick="updateQuantity(this, 1)">+</button>
+                            </div>
+                            <div class="font-bold">PKR 3,998</div>
+                        </div>
+                    </div>
+                    <button class="ml-2 text-gray-400 hover:text-red-500" onclick="removeCartItem(this)">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-6">
+                <div class="flex justify-between py-2">
+                    <span>Subtotal</span>
+                    <span class="font-bold" id="cart-subtotal">PKR 6,497</span>
+                </div>
+                <div class="flex justify-between py-2">
+                    <span>Shipping</span>
+                    <span class="font-bold">PKR 200</span>
+                </div>
+                <div class="flex justify-between py-2 text-xl font-bold border-t pt-4">
+                    <span>Total</span>
+                    <span id="cart-total">PKR 6,697</span>
+                </div>
+                
+                <button class="btn w-full bg-accent border-accent text-white hover:bg-red-600 mt-6">Proceed to Checkout</button>
+                <button class="btn w-full btn-outline mt-3" id="continue-shopping">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4">
+            <!-- Top Bar -->
+            <div class="flex justify-between items-center py-2 border-b">
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm"><i class="fas fa-phone-alt mr-1"></i> +92 42 111 111 111</span>
+                    <span class="text-sm hidden md:block"><i class="fas fa-envelope mr-1"></i> support@outfitters.com.pk</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="text-sm hover:text-accent">Store Locator</a>
+                    <a href="#" class="text-sm hover:text-accent">Track Order</a>
+                    <div class="dropdown dropdown-end">
+                        <div tabindex="0" class="cursor-pointer text-sm hover:text-accent">PKR <i class="fas fa-chevron-down ml-1"></i></div>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-32">
+                            <li><a>PKR</a></li>
+                            <li><a>USD</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Navigation -->
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <a href="#" class="text-2xl font-bold text-black">OUTFITTERS</a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <nav class="hidden lg:flex space-x-8">
+                    <a href="#" class="font-medium hover:text-accent">NEW</a>
+                    <div class="dropdown dropdown-hover">
+                        <div tabindex="0" class="font-medium hover:text-accent cursor-pointer">WOMEN <i class="fas fa-chevron-down ml-1"></i></div>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Dresses</a></li>
+                            <li><a>Tops</a></li>
+                            <li><a>Bottoms</a></li>
+                            <li><a>Winter Collection</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown dropdown-hover">
+                        <div tabindex="0" class="font-medium hover:text-accent cursor-pointer">MEN <i class="fas fa-chevron-down ml-1"></i></div>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a>Shirts</a></li>
+                            <li><a>T-Shirts</a></li>
+                            <li><a>Pants</a></li>
+                            <li><a>Winter Collection</a></li>
+                        </ul>
+                    </div>
+                    <a href="#" class="font-medium hover:text-accent">ACCESSORIES</a>
+                    <a href="#" class="font-medium hover:text-accent">BRANDS</a>
+                    <a href="#" class="font-medium hover:text-accent">SALE</a>
+                </nav>
+                
+                <!-- Icons -->
+                <div class="flex items-center space-x-6">
+                    <div class="hidden lg:flex items-center bg-gray-100 rounded-full px-4 py-2">
+                        <i class="fas fa-search text-gray-500"></i>
+                        <input type="text" placeholder="Search for products..." class="bg-transparent border-none outline-none px-2 w-40" id="search-input">
+                    </div>
+                    <a href="#" class="hover:text-accent"><i class="far fa-user text-xl"></i></a>
+                    <a href="#" class="hover:text-accent relative" id="wishlist-icon">
+                        <i class="far fa-heart text-xl"></i>
+                        <span class="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                    </a>
+                    <a href="#" class="hover:text-accent relative" id="cart-icon">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+                        <span class="absolute -top-2 -right-2 bg-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" id="cart-badge">2</span>
+                    </a>
+                    <button id="mobile-menu-toggle" class="lg:hidden"><i class="fas fa-bars text-xl"></i></button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="mobile-menu lg:hidden pb-4">
+                <div class="flex items-center bg-gray-100 rounded-full px-4 py-2 mb-4">
+                    <i class="fas fa-search text-gray-500"></i>
+                    <input type="text" placeholder="Search..." class="bg-transparent border-none outline-none px-2 w-full">
+                </div>
+                <div class="flex flex-col space-y-4">
+                    <a href="#" class="font-medium hover:text-accent">NEW</a>
+                    <a href="#" class="font-medium hover:text-accent">WOMEN</a>
+                    <a href="#" class="font-medium hover:text-accent">MEN</a>
+                    <a href="#" class="font-medium hover:text-accent">ACCESSORIES</a>
+                    <a href="#" class="font-medium hover:text-accent">BRANDS</a>
+                    <a href="#" class="font-medium hover:text-accent">SALE</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Slider -->
+    <section class="relative">
+        <div class="hero-slider" id="hero-slider" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop')"></div>
+        <div class="absolute inset-0 flex items-center">
+            <div class="container mx-auto px-4">
+                <div class="max-w-lg bg-white/90 p-8 rounded-lg animate-slide">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-4">Winter Collection 2023</h1>
+                    <p class="text-lg mb-6">Discover the latest trends in fashion with our exclusive winter collection. Up to 50% off on selected items.</p>
+                    <div class="flex space-x-4">
+                        <button class="btn bg-accent border-accent text-white hover:bg-red-600">Shop Women</button>
+                        <button class="btn btn-outline border-black text-black hover:bg-black hover:text-white">Shop Men</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Slider Dots -->
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            <button class="w-3 h-3 rounded-full bg-white" onclick="changeSlide(0)"></button>
+            <button class="w-3 h-3 rounded-full bg-gray-300" onclick="changeSlide(1)"></button>
+            <button class="w-3 h-3 rounded-full bg-gray-300" onclick="changeSlide(2)"></button>
+        </div>
+    </section>
+
+    <!-- Promotional Banner -->
+    <section class="py-8 bg-black text-white">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">FREE SHIPPING</h3>
+                    <p class="text-gray-300">On orders over PKR 4,000</p>
+                </div>
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">EASY RETURNS</h3>
+                    <p class="text-gray-300">30-day return policy</p>
+                </div>
+                <div class="text-center md:text-left mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">SECURE PAYMENT</h3>
+                    <p class="text-gray-300">100% secure payment</p>
+                </div>
+                <div class="text-center md:text-left">
+                    <h3 class="text-xl font-bold">CUSTOMER SUPPORT</h3>
+                    <p class="text-gray-300">24/7 customer service</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-10">Shop By Category</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Category 1 -->
+                <div class="category-card card bg-base-100 shadow-xl overflow-hidden cursor-pointer" onclick="filterProducts('women')">
+                    <figure class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1974&auto=format&fit=crop" alt="Women's Fashion" class="w-full h-full object-cover">
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title">Women</h3>
+                        <p>Trendy outfits and accessories</p>
+                        <div class="card-actions justify-end">
+                            <button class="btn btn-ghost text-accent">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 2 -->
+                <div class="category-card card bg-base-100 shadow-xl overflow-hidden cursor-pointer" onclick="filterProducts('men')">
+                    <figure class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38?q=80&w=1974&auto=format&fit=crop" alt="Men's Fashion" class="w-full h-full object-cover">
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title">Men</h3>
+                        <p>Casual & formal wear</p>
+                        <div class="card-actions justify-end">
+                            <button class="btn btn-ghost text-accent">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 3 -->
+                <div class="category-card card bg-base-100 shadow-xl overflow-hidden cursor-pointer" onclick="filterProducts('accessories')">
+                    <figure class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544441893-675973e31985?q=80&w=2070&auto=format&fit=crop" alt="Accessories" class="w-full h-full object-cover">
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title">Accessories</h3>
+                        <p>Bags, watches & more</p>
+                        <div class="card-actions justify-end">
+                            <button class="btn btn-ghost text-accent">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Category 4 -->
+                <div class="category-card card bg-base-100 shadow-xl overflow-hidden cursor-pointer" onclick="filterProducts('sale')">
+                    <figure class="h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?q=80&w=2070&auto=format&fit=crop" alt="Sale" class="w-full h-full object-cover">
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title text-accent">SALE</h3>
+                        <p>Up to 70% off</p>
+                        <div class="card-actions justify-end">
+                            <button class="btn btn-ghost text-accent">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Filter Section -->
+    <section class="py-8 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold mb-4 md:mb-0">Featured Products</h2>
+                <div class="flex space-x-4">
+                    <select class="select select-bordered w-40" id="sort-by">
+                        <option disabled selected>Sort By</option>
+                        <option>Newest</option>
+                        <option>Price: Low to High</option>
+                        <option>Price: High to Low</option>
+                        <option>Popularity</option>
+                    </select>
+                    <div class="dropdown">
+                        <div tabindex="0" class="btn btn-outline">Filter <i class="fas fa-filter ml-2"></i></div>
+                        <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                            <li><a onclick="filterProducts('all')">All Products</a></li>
+                            <li><a onclick="filterProducts('men')">Men</a></li>
+                            <li><a onclick="filterProducts('women')">Women</a></li>
+                            <li><a onclick="filterProducts('accessories')">Accessories</a></li>
+                            <li><a onclick="filterProducts('sale')">On Sale</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="products-grid">
+                <!-- Products will be loaded here by JavaScript -->
+            </div>
+            
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button class="btn btn-outline px-8" id="load-more">Load More Products</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl font-bold">New Arrivals</h2>
+                <a href="#" class="text-accent font-medium hover:underline">View All <i class="fas fa-arrow-right ml-1"></i></a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- New Arrival 1 -->
+                <div class="card bg-base-100 shadow-xl overflow-hidden">
+                    <figure class="h-80 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title">Premium Leather Jacket</h3>
+                        <p>New in Men's Collection</p>
+                        <div class="card-actions justify-between items-center mt-4">
+                            <span class="text-xl font-bold">PKR 8,499</span>
+                            <button class="btn btn-sm bg-accent border-accent text-white hover:bg-red-600">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Arrival 2 -->
+                <div class="card bg-base-100 shadow-xl overflow-hidden">
+                    <figure class="h-80 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title">Designer Evening Gown</h3>
+                        <p>New in Women's Collection</p>
+                        <div class="card-actions justify-between items-center mt-4">
+                            <span class="text-xl font-bold">PKR 12,999</span>
+                            <button class="btn btn-sm bg-accent border-accent text-white hover:bg-red-600">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- New Arrival 3 -->
+                <div class="card bg-base-100 shadow-xl overflow-hidden">
+                    <figure class="h-80 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=1974&auto=format&fit=crop" class="w-full h-full object-cover">
+                    </figure>
+                    <div class="card-body">
+                        <h3 class="card-title">Smart Watch Series 5</h3>
+                        <p>New in Accessories</p>
+                        <div class="card-actions justify-between items-center mt-4">
+                            <span class="text-xl font-bold">PKR 9,999</span>
+                            <button class="btn btn-sm bg-accent border-accent text-white hover:bg-red-600">Shop Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands Section -->
+    <section class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-10">Shop By Brands</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center hover:shadow-md cursor-pointer">
+                    <span class="text-xl font-bold">NIKE</span>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center hover:shadow-md cursor-pointer">
+                    <span class="text-xl font-bold">ADIDAS</span>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center hover:shadow-md cursor-pointer">
+                    <span class="text-xl font-bold">LEVI'S</span>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center hover:shadow-md cursor-pointer">
+                    <span class="text-xl font-bold">ZARA</span>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center hover:shadow-md cursor-pointer">
+                    <span class="text-xl font-bold">H&M</span>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm flex items-center justify-center hover:shadow-md cursor-pointer">
+                    <span class="text-xl font-bold">OUTFITTERS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Customer Reviews -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-10">What Our Customers Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Review 1 -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="avatar mr-4">
+                                <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-user text-xl text-gray-600"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Ayesha Khan</h4>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"I absolutely love my new dress from Outfitters! The quality is amazing and it fits perfectly. Will definitely shop here again!"</p>
+                    </div>
+                </div>
+                
+                <!-- Review 2 -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="avatar mr-4">
+                                <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-user text-xl text-gray-600"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Ali Ahmed</h4>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Great service and fast delivery. The jeans I ordered are exactly as shown on the website. Highly recommended!"</p>
+                    </div>
+                </div>
+                
+                <!-- Review 3 -->
+                <div class="card bg-base-100 shadow-lg">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="avatar mr-4">
+                                <div class="w-12 h-12 rounded-full bg-gray-300 flex items-center justify-center">
+                                    <i class="fas fa-user text-xl text-gray-600"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Sara Malik</h4>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600">"Best online shopping experience in Pakistan. The return policy is hassle-free and customer support is very helpful."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Quick View Modal -->
+    <div class="modal" id="product-modal">
+        <div class="modal-box max-w-5xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold" id="modal-product-title">Product Details</h3>
+                <button class="btn btn-sm btn-circle" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <img src="https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=1974&auto=format&fit=crop" alt="Product" class="w-full rounded-lg" id="modal-product-image">
+                </div>
+                <div>
+                    <h2 class="text-3xl font-bold mb-2" id="modal-product-name">Product Name</h2>
+                    <div class="flex items-center mb-4">
+                        <div class="product-rating mr-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <span class="text-gray-500">(24 reviews)</span>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <span class="text-2xl font-bold mr-4" id="modal-product-price">PKR 2,499</span>
+                        <span class="text-gray-400 line-through" id="modal-product-old-price">PKR 3,570</span>
+                        <span class="ml-4 text-accent font-bold" id="modal-product-discount">30% OFF</span>
+                    </div>
+                    
+                    <p class="text-gray-600 mb-6" id="modal-product-description">Product description goes here with all the details about the material, fit, and care instructions.</p>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-3">Size</h4>
+                        <div class="size-selector">
+                            <input type="radio" id="size-xs" name="size" value="XS">
+                            <label for="size-xs">XS</label>
+                            
+                            <input type="radio" id="size-s" name="size" value="S" checked>
+                            <label for="size-s">S</label>
+                            
+                            <input type="radio" id="size-m" name="size" value="M">
+                            <label for="size-m">M</label>
+                            
+                            <input type="radio" id="size-l" name="size" value="L">
+                            <label for="size-l">L</label>
+                            
+                            <input type="radio" id="size-xl" name="size" value="XL">
+                            <label for="size-xl">XL</label>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-3">Color</h4>
+                        <div class="flex space-x-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-500 border-2 border-gray-300 cursor-pointer"></div>
+                            <div class="w-10 h-10 rounded-full bg-black border-2 border-gray-300 cursor-pointer border-black"></div>
+                            <div class="w-10 h-10 rounded-full bg-gray-300 border-2 border-gray-300 cursor-pointer"></div>
+                            <div class="w-10 h-10 rounded-full bg-red-500 border-2 border-gray-300 cursor-pointer"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4 mb-8">
+                        <div class="flex items-center border rounded-lg px-4 py-2">
+                            <button class="text-gray-500 hover:text-black" onclick="changeQuantity(-1)">-</button>
+                            <span class="mx-4 text-xl" id="quantity">1</span>
+                            <button class="text-gray-500 hover:text-black" onclick="changeQuantity(1)">+</button>
+                        </div>
+                        <button class="btn flex-grow bg-accent border-accent text-white hover:bg-red-600" onclick="addToCartFromModal()">Add to Cart</button>
+                        <button class="btn btn-outline" id="wishlist-modal-btn" onclick="toggleWishlist(this)">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="text-sm text-gray-500">
+                        <p><i class="fas fa-truck mr-2"></i> Free shipping on orders over PKR 4,000</p>
+                        <p><i class="fas fa-exchange-alt mr-2"></i> 30-day return policy</p>
+                        <p><i class="fas fa-shield-alt mr-2"></i> Secure payment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Newsletter Section -->
+    <section class="py-12 bg-black text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+            <p class="text-gray-300 mb-8 max-w-2xl mx-auto">Subscribe to our newsletter and be the first to know about new arrivals, exclusive offers, and style tips.</p>
+            <div class="max-w-md mx-auto flex">
+                <input type="email" placeholder="Enter your email address" class="flex-grow px-4 py-3 rounded-l-lg text-black" id="newsletter-email">
+                <button class="btn bg-accent border-accent text-white hover:bg-red-600 rounded-l-none" onclick="subscribeNewsletter()">Subscribe</button>
+            </div>
+            <p class="text-gray-400 text-sm mt-4">By subscribing, you agree to our Privacy Policy and consent to receive updates.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">OUTFITTERS</h3>
+                    <p class="text-gray-400 mb-6">Pakistan's leading fashion destination offering trendy clothing for men and women since 2003.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-tiktok text-xl"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">QUICK LINKS</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Store Locator</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms & Conditions</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Customer Service -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">CUSTOMER SERVICE</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Track Your Order</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Returns & Exchanges</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Shipping & Delivery</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Size Guide</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Payment Methods</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Care Instructions</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-bold mb-6">CONTACT US</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">123 Fashion Street, Lahore, Pakistan</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-phone-alt mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">+92 42 111 111 111</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">support@outfitters.com.pk</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-clock mr-3 text-gray-400"></i>
+                            <span class="text-gray-400">Mon-Sat: 9AM - 11PM</span>
+                        </li>
+                    </ul>
+                    <div class="mt-6">
+                        <h5 class="font-bold mb-3">Download Our App</h5>
+                        <div class="flex space-x-3">
+                            <button class="btn btn-sm btn-outline">
+                                <i class="fab fa-google-play mr-2"></i> Google Play
+                            </button>
+                            <button class="btn btn-sm btn-outline">
+                                <i class="fab fa-apple mr-2"></i> App Store
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2003-2023 Outfitters. All Rights Reserved. | Designed with <i class="fas fa-heart text-accent"></i> in Pakistan</p>
+                <p class="mt-2 text-sm">All trademarks and logos are the property of their respective owners.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Sample product data
+        const products = [
+            {
+                id: 1,
+                name: "Classic Denim Jacket",
+                category: "women",
+                price: 2499,
+                oldPrice: 3570,
+                discount: 30,
+                image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=400&auto=format&fit=crop",
+                rating: 4.5,
+                description: "A classic denim jacket perfect for casual outings. Made from high-quality denim with a comfortable fit.",
+                featured: true
+            },
+            {
+                id: 2,
+                name: "Casual Striped Shirt",
+                category: "men",
+                price: 1899,
+                oldPrice: null,
+                discount: 0,
+                image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=400&auto=format&fit=crop",
+                rating: 4.2,
+                description: "Comfortable striped shirt for casual and semi-formal occasions.",
+                featured: true
+            },
+            {
+                id: 3,
+                name: "Leather Crossbody Bag",
+                category: "accessories",
+                price: 3200,
+                oldPrice: 3765,
+                discount: 15,
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=400&auto=format&fit=crop",
+                rating: 4.8,
+                description: "Genuine leather crossbody bag with multiple compartments.",
+                featured: true
+            },
+            {
+                id: 4,
+                name: "Winter Knit Sweater",
+                category: "men",
+                price: 2999,
+                oldPrice: null,
+                discount: 0,
+                image: "https://images.unsplash.com/photo-1595341888016-a392ef81b7de?q=80&w=400&auto=format&fit=crop",
+                rating: 4.3,
+                description: "Warm knit sweater perfect for winter season.",
+                featured: true
+            },
+            {
+                id: 5,
+                name: "Floral Summer Dress",
+                category: "women",
+                price: 3499,
+                oldPrice: 4999,
+                discount: 30,
+                image: "https://images.unsplash.com/photo-1567095761054-7a02e69e5c43?q=80&w=400&auto=format&fit=crop",
+                rating: 4.7,
+                description: "Beautiful floral dress for summer occasions.",
+                featured: false
+            },
+            {
+                id: 6,
+                name: "Formal Trousers",
+                category: "men",
+                price: 2299,
+                oldPrice: null,
+                discount: 0,
+                image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?q=80&w=400&auto=format&fit=crop",
+                rating: 4.4,
+                description: "Formal trousers for office wear and special occasions.",
+                featured: false
+            },
+            {
+                id: 7,
+                name: "Designer Handbag",
+                category: "accessories",
+                price: 5999,
+                oldPrice: 7999,
+                discount: 25,
+                image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=400&auto=format&fit=crop",
+                rating: 4.9,
+                description: "Designer handbag with premium finish and ample space.",
+                featured: false
+            },
+            {
+                id: 8,
+                name: "Running Shoes",
+                category: "men",
+                price: 4599,
+                oldPrice: 5999,
+                discount: 23,
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=400&auto=format&fit=crop",
+                rating: 4.6,
+                description: "Comfortable running shoes with excellent grip and support.",
+                featured: false
+            }
+        ];
+        
+        // Cart state
+        let cart = [
+            { id: 1, name: "Classic Denim Jacket", price: 2499, quantity: 1, size: "M", image: "https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=400&auto=format&fit=crop" },
+            { id: 5, name: "Women's Summer Dress", price: 1999, quantity: 2, size: "S", image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=400&auto=format&fit=crop" }
+        ];
+        
+        // Wishlist state
+        let wishlist = [1, 3];
+        
+        // DOM elements
+        let currentFilter = 'all';
+        let displayedProducts = 4;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize the page
+            renderProducts();
+            updateCartBadge();
+            
+            // Mobile menu toggle
+            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuToggle.addEventListener('click', function() {
+                mobileMenu.classList.toggle('active');
+            });
+            
+            // Cart functionality
+            const cartIcon = document.getElementById('cart-icon');
+            const cartSidebar = document.getElementById('cart-sidebar');
+            const cartOverlay = document.getElementById('cart-overlay');
+            const closeCart = document.getElementById('close-cart');
+            const continueShopping = document.getElementById('continue-shopping');
+            
+            cartIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                cartSidebar.classList.add('active');
+                cartOverlay.classList.add('active');
+            });
+            
+            closeCart.addEventListener('click', function() {
+                cartSidebar.classList.remove('active');
+                cartOverlay.classList.remove('active');
+            });
+            
+            continueShopping.addEventListener('click', function() {
+                cartSidebar.classList.remove('active');
+                cartOverlay.classList.remove('active');
+            });
+            
+            cartOverlay.addEventListener('click', function() {
+                cartSidebar.classList.remove('active');
+                cartOverlay.classList.remove('active');
+            });
+            
+            // Search functionality
+            const searchInput = document.getElementById('search-input');
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    performSearch(this.value);
+                }
+            });
+            
+            // Sort functionality
+            const sortBy = document.getElementById('sort-by');
+            sortBy.addEventListener('change', function() {
+                sortProducts(this.value);
+            });
+            
+            // Load more products
+            const loadMoreBtn = document.getElementById('load-more');
+            loadMoreBtn.addEventListener('click', function() {
+                displayedProducts += 4;
+                renderProducts();
+                
+                // Hide button if all products are displayed
+                const filteredProducts = filterProductsByCategory(currentFilter);
+                if (displayedProducts >= filteredProducts.length) {
+                    loadMoreBtn.style.display = 'none';
+                }
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenu.contains(event.target) && !mobileMenuToggle.contains(event.target)) {
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+        
+        // Render products to the grid
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const filteredProducts = filterProductsByCategory(currentFilter);
+            const productsToShow = filteredProducts.slice(0, displayedProducts);
+            
+            grid.innerHTML = '';
+            
+            productsToShow.forEach(product => {
+                const isInWishlist = wishlist.includes(product.id);
+                const productCard = `
+                    <div class="product-card card bg-base-100 shadow-lg overflow-hidden animate-slide">
+                        <figure class="relative h-80 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
+                            ${product.discount > 0 ? `<div class="discount-badge">${product.discount}% OFF</div>` : ''}
+                            <img src="${product.image}" alt="${product.name}" class="product-image w-full h-full object-cover">
+                            <div class="absolute top-3 right-3">
+                                <button class="wishlist-btn btn btn-circle btn-sm ${isInWishlist ? 'active' : ''}" onclick="toggleWishlistItem(${product.id}, this)">
+                                    <i class="${isInWishlist ? 'fas' : 'far'} fa-heart"></i>
+                                </button>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title cursor-pointer" onclick="openProductModal(${product.id})">${product.name}</h3>
+                            <p class="text-gray-500">${getCategoryName(product.category)}</p>
+                            <div class="flex items-center mt-2">
+                                <div class="product-rating">
+                                    ${getStarRating(product.rating)}
+                                </div>
+                                <span class="text-gray-500 text-sm ml-2">(${product.rating})</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-xl font-bold">PKR ${product.price.toLocaleString()}</span>
+                                    ${product.oldPrice ? `<span class="text-gray-400 line-through ml-2">PKR ${product.oldPrice.toLocaleString()}</span>` : ''}
+                                </div>
+                                <button class="btn btn-sm bg-accent border-accent text-white hover:bg-red-600" onclick="addToCart(${product.id})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += productCard;
+            });
+            
+            // Update load more button visibility
+            const loadMoreBtn = document.getElementById('load-more');
+            if (displayedProducts >= filteredProducts.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+            }
+        }
+        
+        // Filter products by category
+        function filterProducts(category) {
+            currentFilter = category;
+            displayedProducts = 4;
+            renderProducts();
+        }
+        
+        function filterProductsByCategory(category) {
+            if (category === 'all') return products;
+            if (category === 'sale') return products.filter(p => p.discount > 0);
+            return products.filter(p => p.category === category);
+        }
+        
+        // Sort products
+        function sortProducts(sortType) {
+            let filteredProducts = filterProductsByCategory(currentFilter);
+            
+            switch(sortType) {
+                case 'Price: Low to High':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'Price: High to Low':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                case 'Popularity':
+                    filteredProducts.sort((a, b) => b.rating - a.rating);
+                    break;
+                default:
+                    // Newest (default) - keep as is
+                    break;
+            }
+            
+            // Update displayed products
+            const grid = document.getElementById('products-grid');
+            const productsToShow = filteredProducts.slice(0, displayedProducts);
+            
+            grid.innerHTML = '';
+            productsToShow.forEach(product => {
+                const isInWishlist = wishlist.includes(product.id);
+                const productCard = `
+                    <div class="product-card card bg-base-100 shadow-lg overflow-hidden animate-slide">
+                        <figure class="relative h-80 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
+                            ${product.discount > 0 ? `<div class="discount-badge">${product.discount}% OFF</div>` : ''}
+                            <img src="${product.image}" alt="${product.name}" class="product-image w-full h-full object-cover">
+                            <div class="absolute top-3 right-3">
+                                <button class="wishlist-btn btn btn-circle btn-sm ${isInWishlist ? 'active' : ''}" onclick="toggleWishlistItem(${product.id}, this)">
+                                    <i class="${isInWishlist ? 'fas' : 'far'} fa-heart"></i>
+                                </button>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title cursor-pointer" onclick="openProductModal(${product.id})">${product.name}</h3>
+                            <p class="text-gray-500">${getCategoryName(product.category)}</p>
+                            <div class="flex items-center mt-2">
+                                <div class="product-rating">
+                                    ${getStarRating(product.rating)}
+                                </div>
+                                <span class="text-gray-500 text-sm ml-2">(${product.rating})</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-xl font-bold">PKR ${product.price.toLocaleString()}</span>
+                                    ${product.oldPrice ? `<span class="text-gray-400 line-through ml-2">PKR ${product.oldPrice.toLocaleString()}</span>` : ''}
+                                </div>
+                                <button class="btn btn-sm bg-accent border-accent text-white hover:bg-red-600" onclick="addToCart(${product.id})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += productCard;
+            });
+        }
+        
+        // Add to cart function
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    quantity: 1,
+                    size: "M",
+                    image: product.image
+                });
+            }
+            
+            updateCartBadge();
+            updateCartDisplay();
+            showNotification(`${product.name} added to cart!`);
+        }
+        
+        // Update cart badge
+        function updateCartBadge() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            document.getElementById('cart-badge').textContent = totalItems;
+            document.getElementById('cart-count').textContent = totalItems;
+        }
+        
+        // Update cart display
+        function updateCartDisplay() {
+            const cartItems = document.getElementById('cart-items');
+            const cartSubtotal = document.getElementById('cart-subtotal');
+            const cartTotal = document.getElementById('cart-total');
+            
+            let subtotal = 0;
+            cartItems.innerHTML = '';
+            
+            cart.forEach(item => {
+                subtotal += item.price * item.quantity;
+                
+                const cartItem = `
+                    <div class="flex items-center border-b py-4">
+                        <div class="w-20 h-20 overflow-hidden rounded">
+                            <img src="${item.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="ml-4 flex-grow">
+                            <h4 class="font-medium">${item.name}</h4>
+                            <p class="text-sm text-gray-500">Size: ${item.size}</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <div class="flex items-center">
+                                    <button class="text-gray-500 hover:text-black" onclick="updateCartItemQuantity(${item.id}, -1)">-</button>
+                                    <span class="mx-2">${item.quantity}</span>
+                                    <button class="text-gray-500 hover:text-black" onclick="updateCartItemQuantity(${item.id}, 1)">+</button>
+                                </div>
+                                <div class="font-bold">PKR ${(item.price * item.quantity).toLocaleString()}</div>
+                            </div>
+                        </div>
+                        <button class="ml-2 text-gray-400 hover:text-red-500" onclick="removeCartItemById(${item.id})">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                cartItems.innerHTML += cartItem;
+            });
+            
+            const shipping = 200;
+            const total = subtotal + shipping;
+            
+            cartSubtotal.textContent = `PKR ${subtotal.toLocaleString()}`;
+            cartTotal.textContent = `PKR ${total.toLocaleString()}`;
+        }
+        
+        // Update cart item quantity
+        function updateCartItemQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    cart = cart.filter(item => item.id !== productId);
+                }
+                updateCartBadge();
+                updateCartDisplay();
+            }
+        }
+        
+        // Remove cart item by ID
+        function removeCartItemById(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartBadge();
+            updateCartDisplay();
+        }
+        
+        // Toggle wishlist item
+        function toggleWishlistItem(productId, button) {
+            const index = wishlist.indexOf(productId);
+            if (index === -1) {
+                wishlist.push(productId);
+                button.classList.add('active');
+                button.innerHTML = '<i class="fas fa-heart"></i>';
+                showNotification('Added to wishlist!');
+            } else {
+                wishlist.splice(index, 1);
+                button.classList.remove('active');
+                button.innerHTML = '<i class="far fa-heart"></i>';
+                showNotification('Removed from wishlist!');
+            }
+            
+            // Update wishlist icon count
+            const wishlistIcon = document.getElementById('wishlist-icon');
+            const countSpan = wishlistIcon.querySelector('span');
+            countSpan.textContent = wishlist.length;
+        }
+        
+        // Toggle wishlist button
+        function toggleWishlist(button) {
+            button.classList.toggle('active');
+            const icon = button.querySelector('i');
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                showNotification('Added to wishlist!');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                showNotification('Removed from wishlist!');
+            }
+        }
+        
+        // Open product modal
+        function openProductModal(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+            
+            document.getElementById('modal-product-title').textContent = product.name;
+            document.getElementById('modal-product-name').textContent = product.name;
+            document.getElementById('modal-product-price').textContent = `PKR ${product.price.toLocaleString()}`;
+            document.getElementById('modal-product-image').src = product.image;
+            document.getElementById('modal-product-description').textContent = product.description;
+            
+            if (product.oldPrice) {
+                document.getElementById('modal-product-old-price').textContent = `PKR ${product.oldPrice.toLocaleString()}`;
+                document.getElementById('modal-product-discount').textContent = `${product.discount}% OFF`;
+            } else {
+                document.getElementById('modal-product-old-price').textContent = '';
+                document.getElementById('modal-product-discount').textContent = '';
+            }
+            
+            // Check if product is in wishlist
+            const isInWishlist = wishlist.includes(productId);
+            const wishlistBtn = document.getElementById('wishlist-modal-btn');
+            const icon = wishlistBtn.querySelector('i');
+            
+            if (isInWishlist) {
+                wishlistBtn.classList.add('active');
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                wishlistBtn.classList.remove('active');
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+            
+            // Set product ID on modal for add to cart
+            wishlistBtn.setAttribute('data-product-id', productId);
+            
+            // Show modal
+            document.getElementById('product-modal').showModal();
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('product-modal').close();
+        }
+        
+        // Change quantity in modal
+        function changeQuantity(change) {
+            const quantityElement = document.getElementById('quantity');
+            let quantity = parseInt(quantityElement.textContent);
+            quantity += change;
+            if (quantity < 1) quantity = 1;
+            if (quantity > 10) quantity = 10;
+            quantityElement.textContent = quantity;
+        }
+        
+        // Add to cart from modal
+        function addToCartFromModal() {
+            const quantity = parseInt(document.getElementById('quantity').textContent);
+            const sizeElement = document.querySelector('input[name="size"]:checked');
+            const size = sizeElement ? sizeElement.value : "M";
+            
+            // Get product from modal title
+            const productName = document.getElementById('modal-product-name').textContent;
+            const product = products.find(p => p.name === productName);
+            
+            if (product) {
+                const existingItem = cart.find(item => item.id === product.id);
+                
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        quantity: quantity,
+                        size: size,
+                        image: product.image
+                    });
+                }
+                
+                updateCartBadge();
+                updateCartDisplay();
+                showNotification(`${quantity} ${product.name}(s) added to cart!`);
+                closeModal();
+            }
+        }
+        
+        // Search products
+        function performSearch(query) {
+            if (!query.trim()) return;
+            
+            const filteredProducts = products.filter(product => 
+                product.name.toLowerCase().includes(query.toLowerCase()) ||
+                product.description.toLowerCase().includes(query.toLowerCase()) ||
+                product.category.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            // Display search results
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            
+            if (filteredProducts.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i class="fas fa-search text-4xl text-gray-300 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2">No products found</h3>
+                        <p class="text-gray-500">Try adjusting your search or filter to find what you're looking for.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredProducts.forEach(product => {
+                const isInWishlist = wishlist.includes(product.id);
+                const productCard = `
+                    <div class="product-card card bg-base-100 shadow-lg overflow-hidden animate-slide">
+                        <figure class="relative h-80 overflow-hidden cursor-pointer" onclick="openProductModal(${product.id})">
+                            ${product.discount > 0 ? `<div class="discount-badge">${product.discount}% OFF</div>` : ''}
+                            <img src="${product.image}" alt="${product.name}" class="product-image w-full h-full object-cover">
+                            <div class="absolute top-3 right-3">
+                                <button class="wishlist-btn btn btn-circle btn-sm ${isInWishlist ? 'active' : ''}" onclick="toggleWishlistItem(${product.id}, this)">
+                                    <i class="${isInWishlist ? 'fas' : 'far'} fa-heart"></i>
+                                </button>
+                            </div>
+                        </figure>
+                        <div class="card-body">
+                            <h3 class="card-title cursor-pointer" onclick="openProductModal(${product.id})">${product.name}</h3>
+                            <p class="text-gray-500">${getCategoryName(product.category)}</p>
+                            <div class="flex items-center mt-2">
+                                <div class="product-rating">
+                                    ${getStarRating(product.rating)}
+                                </div>
+                                <span class="text-gray-500 text-sm ml-2">(${product.rating})</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex items-center">
+                                    <span class="text-xl font-bold">PKR ${product.price.toLocaleString()}</span>
+                                    ${product.oldPrice ? `<span class="text-gray-400 line-through ml-2">PKR ${product.oldPrice.toLocaleString()}</span>` : ''}
+                                </div>
+                                <button class="btn btn-sm bg-accent border-accent text-white hover:bg-red-600" onclick="addToCart(${product.id})">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += productCard;
+            });
+            
+            // Hide load more button during search
+            document.getElementById('load-more').style.display = 'none';
+        }
+        
+        // Subscribe to newsletter
+        function subscribeNewsletter() {
+            const emailInput = document.getElementById('newsletter-email');
+            const email = emailInput.value.trim();
+            
+            if (!email || !isValidEmail(email)) {
+                showNotification('Please enter a valid email address.', 'error');
+                return;
+            }
+            
+            // Simulate subscription
+            emailInput.value = '';
+            showNotification('Thank you for subscribing to our newsletter!');
+        }
+        
+        // Helper functions
+        function getCategoryName(category) {
+            const categories = {
+                'women': "Women's Fashion",
+                'men': "Men's Fashion",
+                'accessories': "Accessories"
+            };
+            return categories[category] || category;
+        }
+        
+        function getStarRating(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+        
+        function showNotification(message, type = 'success') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg transition-all duration-300 ${type === 'error' ? 'bg-red-500' : 'bg-green-500'} text-white`;
+            notification.textContent = message;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+        
+        // Hero slider functionality
+        const heroImages = [
+            'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1445205170230-053b83016050?q=80&w=2071&auto=format&fit=crop',
+            'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=2067&auto=format&fit=crop'
+        ];
+        
+        let currentSlide = 0;
+        
+        function changeSlide(slideIndex) {
+            currentSlide = slideIndex;
+            const slider = document.getElementById('hero-slider');
+            slider.style.backgroundImage = `url('${heroImages[slideIndex]}')`;
+            
+            // Update dots
+            const dots = document.querySelectorAll('.absolute.bottom-4 button');
+            dots.forEach((dot, index) => {
+                dot.className = index === slideIndex ? 'w-3 h-3 rounded-full bg-white' : 'w-3 h-3 rounded-full bg-gray-300';
+            });
+        }
+        
+        // Auto slide change every 5 seconds
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % heroImages.length;
+            changeSlide(currentSlide);
+        }, 5000);
+    </script>
+</body>
+</html>
