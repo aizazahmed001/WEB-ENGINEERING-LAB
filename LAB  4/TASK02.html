@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 2</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Georgia", serif;
+            background-color: #f5f0e6;
+        }
+
+        .page-header {
+            padding: 16px 24px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 8px 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 16px;
+            /* overflow: hidden is used here to clear the floats inside */
+            overflow: hidden;
+        }
+
+        .sidebar {
+            float: left;
+            width: 30%;
+            background-color: #f7b7ff;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .main {
+            float: right;
+            width: 68%;
+            background-color: #f6b0a8;
+            padding: 16px;
+            box-sizing: border-box;
+        }
+
+        .page-footer {
+            padding: 12px 24px;
+            background-color: #ffffff;
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .sidebar,
+            .main {
+                float: none;
+                width: 100%;
+            }
+
+            .page-footer {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="page-header">
+        <h1>Media Queries</h1>
+    </header>
+
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Sidebar Content</h2>
+            <p>This is sidebar content - it shows on left on desktops, on bottom on phones</p>
+            <p>This is sidebar content - it shows on left on desktops, on bottom on phones</p>
+            <p>This is sidebar content - it shows on left on desktops, on bottom on phones</p>
+        </aside>
+
+        <article class="main">
+            <h2>Main Content</h2>
+            <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+            <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+            <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+            <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+        </article>
+    </div>
+
+    <footer class="page-footer">
+        This is the footer - its shows only on desktops
+    </footer>
+</body>
+</html>

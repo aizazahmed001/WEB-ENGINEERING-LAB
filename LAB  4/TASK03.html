@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Viewport meta tag for proper scaling on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Layout - Task #3</title>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: #e0e0e0;  /* Body background color */
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #ffffff;  /* Container background color */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #4a6fa5;  /* Header background color */
+            color: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2em;
+            margin: 0;
+        }
+        
+        /* Main Content Wrapper */
+        .content-wrapper {
+            overflow: hidden; /* Clearfix for floats */
+            margin-bottom: 25px;
+        }
+        
+        /* Article Styles - Main Content */
+        article {
+            background-color: #d4e6f1;  /* Article background color */
+            padding: 25px;
+            border-radius: 6px;
+            float: right;
+            width: 70%;
+        }
+        
+        article p {
+            background-color: #a9cce3;  /* Darker shade for paragraphs */
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border-left: 5px solid #2c3e50;
+        }
+        
+        article h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #2c3e50;
+            padding-bottom: 8px;
+        }
+        
+        /* Aside Styles - Sidebar Content */
+        aside {
+            background-color: #f9e79f;  /* Aside background color */
+            padding: 25px;
+            border-radius: 6px;
+            float: left;
+            width: 28%;
+            margin-right: 2%;
+        }
+        
+        aside p {
+            background-color: #f7dc6f;  /* Darker shade for paragraphs */
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 4px;
+            border-left: 5px solid #b7950b;
+        }
+        
+        aside h3 {
+            color: #7d6608;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #b7950b;
+            padding-bottom: 8px;
+        }
+        
+        /* Footer Styles */
+        footer {
+            background-color: #2c3e50;  /* Footer background color */
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            clear: both;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        /* MEDIA QUERY - Targets maximum width of 700 pixels */
+        @media screen and (max-width: 700px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            header {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            /* Stack columns vertically */
+            article, aside {
+                float: none;
+                width: 100%;
+                margin: 0 0 20px 0;
+            }
+            
+            /* Sidebar appears below main content */
+            aside {
+                margin-bottom: 0;
+            }
+            
+            /* Hide footer for screens 700px and smaller */
+            footer {
+                display: none;
+            }
+            
+            /* Adjust paragraph spacing for mobile */
+            article p, aside p {
+                padding: 12px;
+                margin: 10px 0;
+            }
+            
+            article h2, aside h3 {
+                font-size: 1.4em;
+            }
+        }
+        
+        /* Additional small screen adjustments */
+        @media screen and (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            header {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+            }
+            
+            article p, aside p {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Responsive Page Layout - Task #3</h1>
+        </header>
+        
+        <div class="content-wrapper">
+            <aside>
+                <h3>Sidebar Content</h3>
+                <p>This is sidebar content - it shows on left on desktops, on bottom on phones</p>
+                <p>This is sidebar content - it shows on left on desktops, on bottom on phones</p>
+                <p>This is sidebar content - it shows on left on desktops, on bottom on phones</p>
+            </aside>
+            
+            <article>
+                <h2>Main Content</h2>
+                <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+                <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+                <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+                <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+                <p>This is main content - it shows on right on desktops, on bottom on phones</p>
+            </article>
+        </div>
+        
+        <footer>
+            <p>This is the footer - it shows only on desktops (hidden on screens 700px and smaller)</p>
+        </footer>
+    </div>
+    
+    <!-- Note about viewport tag -->
+    <!-- 
+        The viewport meta tag above (<meta name="viewport" content="width=device-width, initial-scale=1.0">)
+        ensures proper scaling on mobile devices. If you remove this tag, mobile devices will 
+        try to scale the desktop version (typically zoomed out), making text harder to read.
+        
+        Try removing the viewport tag and view on a mobile device or narrow browser window
+        to see the difference in scaling!
+    -->
+</body>
+</html>
